@@ -7,37 +7,28 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.List;
+
 import java.time.Duration;
+import java.util.List;
 
 @Getter
 public class AboutUserForm {
 
-    WebDriver driver;
-
     //Поле имя пользователя
     private final By USER_FIRST_NAME_FIELD = By.xpath("//input[@placeholder = '* Имя']");
-
     //Поле фамилия пользователя
     private final By USER_SECOND_NAME_FIELD = By.xpath("//input[@placeholder = '* Фамилия']");
-
     //Поле адрес пользователя
     private final By ADDRESS_FIELD = By.xpath("//input[@placeholder = '* Адрес: куда привезти заказ']");
-
     //Поле станция метро
     private final By METRO_STATION_FIELD = By.xpath("//input[@placeholder = '* Станция метро']");
-
     //список станций метро
     private final By METRO_STATIONS_LIST = By.xpath("//ul[@class='select-search__options']//li");
-
     //Поле номер телефона
     private final By PHONE_NUMBER_FIELD = By.xpath("//input[@placeholder = '* Телефон: на него позвонит курьер']");
-
     //Кнопка "далее"
     private final By NEXT_BUTTON = By.xpath("//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
-
-
-
+    WebDriver driver;
 
     public AboutUserForm(WebDriver driver) {
         this.driver = driver;
@@ -53,7 +44,6 @@ public class AboutUserForm {
                 .until(ExpectedConditions.textToBePresentInElementValue(USER_FIRST_NAME_FIELD, textUserFirstName));
 
     }
-
 
     //метод заполнения поля фамилия пользователя
     public void editUserSecondNameField(String textUserSecondName) {
@@ -90,10 +80,9 @@ public class AboutUserForm {
 
     }
 
-
     //метод заполнения поля метро по выбору из списка
     public void editMetroStationField(int number) {
-        number = number-1;
+        number = number - 1;
         new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.visibilityOfElementLocated(METRO_STATION_FIELD));
 
@@ -101,19 +90,18 @@ public class AboutUserForm {
         List<WebElement> list = driver.findElements(METRO_STATIONS_LIST);
         String s1 = list.get(number).getText();
         String s2 = list.get(1).getText();
-        if(number <= list.size() && number > -1) {
+        if (number <= list.size() && number > -1) {
             list.get(number).click();
             new WebDriverWait(driver, Duration.ofSeconds(3))
                     .until(ExpectedConditions.textToBePresentInElementValue(METRO_STATION_FIELD, s1));
-        }
-        else
-        {list.get(1).click();
+        } else {
+            list.get(1).click();
             new WebDriverWait(driver, Duration.ofSeconds(3))
-                    .until(ExpectedConditions.textToBePresentInElementValue(METRO_STATION_FIELD, s2));}
+                    .until(ExpectedConditions.textToBePresentInElementValue(METRO_STATION_FIELD, s2));
+        }
 
 
     }
-
 
     //метод заполнения поля номер телефона
     public void editPhoneNumberField(String textPhoneNumber) {
@@ -127,7 +115,7 @@ public class AboutUserForm {
     }
 
     //клик по кнопке "Далее"
-    public void clickNextButton(){
+    public void clickNextButton() {
         new WebDriverWait(driver, Duration.ofSeconds(3))
                 .until(ExpectedConditions.elementToBeClickable(NEXT_BUTTON));
         driver.findElement(NEXT_BUTTON).click();
@@ -137,7 +125,7 @@ public class AboutUserForm {
 
     //полный процесс заполнения формы 1 . На случай, если не надо проверять поля по отдельности
     public void fillFullAboutUserForm(String userFirstName, String userSecondName, String userAddress, int metroStationNumber,
-                                      String phoneNumber){
+                                      String phoneNumber) {
         editUserFirstNameField(userFirstName);
         editUserSecondNameField(userSecondName);
         editAddressField(userAddress);
